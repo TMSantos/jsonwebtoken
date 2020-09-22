@@ -105,8 +105,15 @@ class JWT {
       bool noTimestamp = false,
       String certificate}) {
     final header = certificate != null
-        ? {'alg': algorithm.name, 'typ': 'JWT', 'x5c': certificate}
-        : {'alg': algorithm.name, 'typ': 'JWT'};
+        ? {
+            'alg': algorithm.name,
+            'createdAt': DateTime.now().toIso8601String(),
+            'x5c': certificate
+          }
+        : {
+            'alg': algorithm.name,
+            'createdAt': DateTime.now().toIso8601String()
+          };
 
     //if (!noTimestamp) payload['iat'] = secondsSinceEpoch(DateTime.now());
     if (expiresIn != null) {
