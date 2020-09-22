@@ -47,6 +47,33 @@ class JWT {
     );
   }
 
+  static JWT isExpired(String token) {
+    final parts = token.split('.');
+
+    final rawHeader = jsonBase64.decode(base64Padded(parts[0]));
+    final header = Map<String, dynamic>.from(rawHeader);
+
+    if (header['typ'] != 'JWT') throw JWTInvalidError('not a jwt');
+    if (parts.length < 3) throw JWTInvalidError('jwt malformated');
+
+    final rawPayload = jsonBase64.decode(base64Padded(parts[1]));
+    final payload = Map<String, dynamic>.from(rawPayload);
+
+    if (payload.containsKey('exp')) {
+      final exp = DateTime.fromMillisecondsSinceEpoch(payload['exp'] * 1000);
+      if (exp.isBefore(DateTime.now())) {
+        throw JWTExpiredError();
+      }
+    }
+
+    return JWT(
+      payload: payload,
+      audience: payload.remove('aud'),
+      issuer: payload.remove('iss'),
+      subject: payload.remove('sub'),
+    );
+  }
+
   /// JSON Web Token
   JWT({
     this.payload = const {},
