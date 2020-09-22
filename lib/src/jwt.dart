@@ -16,7 +16,7 @@ class JWT {
     final rawHeader = jsonBase64.decode(base64Padded(parts[0]));
     final header = Map<String, dynamic>.from(rawHeader);
 
-    if (header['typ'] != 'JWT') throw JWTInvalidError('not a jwt');
+    //if (header['typ'] != 'JWT') throw JWTInvalidError('not a jwt');
 
     final algorithm = JWTAlgorithm.fromName(header['alg']);
 
@@ -53,7 +53,7 @@ class JWT {
     final rawHeader = jsonBase64.decode(base64Padded(parts[0]));
     final header = Map<String, dynamic>.from(rawHeader);
 
-    if (header['typ'] != 'JWT') throw JWTInvalidError('not a jwt');
+    //if (header['typ'] != 'JWT') throw JWTInvalidError('not a jwt');
     if (parts.length < 3) throw JWTInvalidError('jwt malformated');
 
     final rawPayload = jsonBase64.decode(base64Padded(parts[1]));
