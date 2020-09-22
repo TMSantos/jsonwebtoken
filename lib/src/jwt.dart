@@ -72,15 +72,16 @@ class JWT {
   /// `key` must be
   /// - SecretKey with HS256 algorithm
   /// - PrivateKey with RS256 algorithm
-  String sign(
-    Key key, {
-    JWTAlgorithm algorithm = JWTAlgorithm.HS256,
-    Duration expiresIn,
-    bool noTimestamp = false,
-  }) {
-    final header = {'alg': algorithm.name, 'typ': 'JWT'};
+  String sign(Key key,
+      {JWTAlgorithm algorithm = JWTAlgorithm.HS256,
+      Duration expiresIn,
+      bool noTimestamp = false,
+      String certificate}) {
+    final header = certificate != null
+        ? {'alg': algorithm.name, 'typ': 'JWT', 'x5c': certificate}
+        : {'alg': algorithm.name, 'typ': 'JWT'};
 
-    if (!noTimestamp) payload['iat'] = secondsSinceEpoch(DateTime.now());
+    //if (!noTimestamp) payload['iat'] = secondsSinceEpoch(DateTime.now());
     if (expiresIn != null) {
       payload['exp'] = secondsSinceEpoch(DateTime.now().add(expiresIn));
     }
