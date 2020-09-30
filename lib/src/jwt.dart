@@ -76,14 +76,14 @@ class JWT {
 
   /// JSON Web Token
   JWT({
-    this.payload = const {},
+    this.payload,
     this.audience,
     this.subject,
     this.issuer,
   });
 
   /// Custom claims
-  final Map<String, dynamic> payload;
+  final dynamic payload;
 
   /// Audience claim
   final String audience;
