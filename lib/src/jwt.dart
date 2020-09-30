@@ -124,7 +124,7 @@ class JWT {
     if (issuer != null) payload['iss'] = issuer;
 
     final b64Header = base64Unpadded(jsonBase64.encode(header));
-    final b64Payload = payload is Map ? base64Unpadded(jsonBase64.encode(payload)) : base64.encode(utf8.encode(payload));
+    final b64Payload = payload is String ? base64.encode(utf8.encode(payload)) : base64Unpadded(jsonBase64.encode(payload));
 
     final body = '${b64Header}.${b64Payload}';
     final signature = base64Unpadded(
